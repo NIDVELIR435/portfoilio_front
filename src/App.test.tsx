@@ -10,7 +10,7 @@ test('renders sign up react page', () => {
 
 
 test('renders sign in react page', () => {
-  render(<App isLoggedIn={true}/>);
-  const linkElement = screen.getByText(/Sign up/i);
+  render(<App isLoggedIn={false}/>);
+  const linkElement = screen.getByText(/Sign in/i);
   expect(linkElement).toBeInTheDocument();
 });
