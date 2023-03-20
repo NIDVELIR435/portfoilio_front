@@ -1,13 +1,11 @@
 import React from 'react';
 import './App.css';
-import SignUp from "./sign/SignUp";
-import SignIn from "./sign/SignIn";
+import {Outlet} from "react-router-dom";
 
-function App({isLoggedIn}: { isLoggedIn: boolean }): JSX.Element {
-
+function App(): JSX.Element {
     return (
         <div className="App">
-            {isLoggedIn ? <SignUp/> : <SignIn/>}
+            <Outlet/>
         </div>
     );
 }

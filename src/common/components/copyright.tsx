@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import {reactAppName} from "../names.constant";
+import {reactAppName} from "../constants/names.constant";
 import * as React from "react";
 
 function Copyright(props: { sx: {mt: number, mb: number }}) {

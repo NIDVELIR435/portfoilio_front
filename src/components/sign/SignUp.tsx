@@ -3,18 +3,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import Copyright from "../common/components/copyright";
+import Copyright from "../../common/components/copyright";
+import {NavLink} from "react-router-dom";
 
 const theme = createTheme();
 
-export default function SignUp(): JSX.Element {
+export const SignUp = (): JSX.Element =>  {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -97,14 +97,14 @@ export default function SignUp(): JSX.Element {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
-                                    Already have an account? Sign in
-                                </Link>
+                                    <NavLink to='/sign-in'>Already have an account? Sign in</NavLink>
                             </Grid>
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }}/>
+                <Box sx={{bgcolor: 'background.paper', p: 6}} component="footer">
+                    <Copyright sx={{mt: 8, mb: 4}}/>
+                </Box>
             </Container>
         </ThemeProvider>
     );

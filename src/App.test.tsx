@@ -3,14 +3,7 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 test('renders sign up react page', () => {
-  render(<App isLoggedIn={true}/>);
+  render(<App />);
   const linkElement = screen.getByText(/Sign up/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-
-test('renders sign in react page', () => {
-  render(<App isLoggedIn={false}/>);
-  const linkElement = screen.getByText(/Sign in/i);
   expect(linkElement).toBeInTheDocument();
 });
