@@ -17,12 +17,14 @@ export class AuthStore {
         try {
             const response = await this.authService.signIn(requestBody);
 
-            localStorage.setItem('access_token', response.data);
-
-            this.setAuthenticate(true);
+            if (response.status === 200) {
+                localStorage.setItem('access_token', response.data);
+                this.setAuthenticate(true);
+            }
+            return;
         } catch (error: unknown) {
             this.setAuthenticate(false)
-            throw new Error('UnexpectedError');
+            return;
         }
 
     }
