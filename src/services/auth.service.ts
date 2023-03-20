@@ -1,6 +1,6 @@
 import {Axios, AxiosResponse} from "axios";
 
-type User = {
+export type User = {
     "createdAt": Date,
     "updatedAt": Date,
     "id": number,
