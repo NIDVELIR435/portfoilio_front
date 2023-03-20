@@ -49,14 +49,13 @@ export const SignUp = (): JSX.Element => {
         setSnackBarSeverity(severity);
         setSnackBarMessage(message);
         setOpenSnackBar(true);
+        setBusy(false);
 
         delay(() => {
             setOpenSnackBar(false);
-            setBusy(false);
-
             if (authenticated)
                 setRedirect(true);
-        }, 1000)
+        }, 3000)
     };
 
     return redirect || authenticated
