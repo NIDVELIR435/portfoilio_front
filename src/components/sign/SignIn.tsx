@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Copyright from "../../common/components/copyright";
-import {Navigate, NavLink, redirect} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 import {StoreContext} from "../../stores/store.context";
 import {useState} from "react";
 import {LoadingButton} from "@mui/lab";
