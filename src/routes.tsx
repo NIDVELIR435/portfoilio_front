@@ -6,6 +6,7 @@ import App from "./App";
 import NotFoundPage from "./components/not-found/NotFound";
 import {JwtRouteGuard} from "./guards/private-route.guard";
 import {Main} from "./components/profile/Main";
+import Profile from "./components/profile/Profile";
 
 const router = createBrowserRouter([
     {
@@ -15,7 +16,23 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'main',
-                element: <Main/>
+                element: <Main/>,
+                errorElement: <NotFoundPage/>,
+                children: [
+                    {
+                        path: 'all',
+                        index: true,
+                        element: <Profile/>
+                    },
+                    {
+                        path: '*',
+                        element: <Navigate to={'all'}/>
+                    }
+                ]
+            },
+            {
+                path: '*',
+                element: <Navigate to={'main/all'}/>
             }
         ],
     },

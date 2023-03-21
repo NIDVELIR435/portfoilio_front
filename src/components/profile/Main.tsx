@@ -9,9 +9,9 @@ import Copyright from "../../common/components/copyright";
 import CustomizedMenus from "../toolbar/CostomizedMenu";
 import {PaletteMode} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import Profile from "./Profile";
 import {ServicesContext} from "../../stores/store.context";
 import {User} from "../../services/types/user.type";
+import {Outlet} from "react-router-dom";
 
 export const Main = (): JSX.Element => {
     const [mode, setMode] = React.useState<PaletteMode>('light');
@@ -58,7 +58,7 @@ export const Main = (): JSX.Element => {
             </AppBar>
 
             {/*body*/}
-            <Profile/>
+            <Outlet/>
 
             {/*footer*/}
             <Copyright sx={{mt: 8, mb: 4}}/>
