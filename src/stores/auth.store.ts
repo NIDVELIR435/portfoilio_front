@@ -2,6 +2,11 @@ import {makeAutoObservable} from "mobx";
 import {AuthService, User} from "../services/auth.service";
 import {SeverityLevel} from "../components/snack-bar/SnackBar";
 
+type ResponseType = {
+    severity: SeverityLevel;
+    message: string
+}
+
 export class AuthStore {
     private authenticated = false
 
@@ -14,27 +19,42 @@ export class AuthStore {
         return this.authenticated
     }
 
-    public async signIn(requestBody: { email: string, password: string }): Promise<boolean> {
+    public async signIn(requestBody: { email: string, password: string }): Promise<ResponseType> {
         try {
             const response = await this.authService.signIn(requestBody);
 
             if (response.status === 200) {
                 localStorage.setItem('access_token', response.data);
                 this.setAuthenticate(true);
-                return true
+                return {
+                    severity: 'success',
+                    message: 'Success'
+                }
             }
-            return false;
+
+            if (response.status === 401) {
+                localStorage.setItem('access_token', response.data);
+                return {
+                    severity: 'error',
+                    message: 'Wrong email or password'
+                }
+            }
+
+            return {
+                severity: 'warning',
+                message: 'Something wrong happened during authentication'
+            };
         } catch (error: unknown) {
             this.setAuthenticate(false)
-            return false;
+            return {
+                severity: 'error',
+                message: 'Something wrong happened during authentication'
+            };
         }
     }
 
 
-    public async signUp(body: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<{
-        severity: SeverityLevel;
-        message: string
-    }> {
+    public async signUp(body: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<ResponseType> {
         try {
             const response = await this.authService.signUp(body);
 

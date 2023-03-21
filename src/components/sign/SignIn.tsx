@@ -13,6 +13,8 @@ import {Navigate, NavLink, redirect} from "react-router-dom";
 import {StoreContext} from "../../stores/store.context";
 import {useState} from "react";
 import {LoadingButton} from "@mui/lab";
+import {SeverityLevel, SimpleSnackbar} from "../snack-bar/SnackBar";
+import {delay} from "lodash";
 
 const theme = createTheme();
 
@@ -21,6 +23,12 @@ export const SignIn = (): JSX.Element => {
     const authenticated = authStore.isAuthenticated();
 
     const [busy, setBusy] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [snackBarSeverity, setSnackBarSeverity] = useState<SeverityLevel>('info');
+    const [snackBarMessage, setSnackBarMessage] = useState<string>('');
+
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -30,13 +38,21 @@ export const SignIn = (): JSX.Element => {
         const password = data.get('password') as string;
 
         setBusy(true);
-        await authStore.signIn({email, password});
+        const {severity, message} = await authStore.signIn({email, password});
+
+        setSnackBarSeverity(severity);
+        setSnackBarMessage(message);
+        setOpenSnackBar(true);
         setBusy(false);
-        if (authenticated)
-            redirect('main');
+
+        delay(() => {
+            setOpenSnackBar(false);
+            if (authenticated)
+                setRedirect(true);
+        }, 3000)
     };
 
-    return authenticated
+    return redirect || authenticated
         ? <Navigate to="/main"/>
         : <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -99,5 +115,6 @@ export const SignIn = (): JSX.Element => {
                     <Copyright sx={{mt: 8, mb: 4}}/>
                 </Box>
             </Container>
+            <SimpleSnackbar severity={snackBarSeverity} show={openSnackBar} message={snackBarMessage}/>
         </ThemeProvider>
 }
