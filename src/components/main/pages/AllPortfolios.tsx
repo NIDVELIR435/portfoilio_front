@@ -10,11 +10,27 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
-
-const cards = [1, 2, 3, 4, 5];
-
+import {useContext, useEffect, useState} from "react";
+import {StoreContext} from "../../../stores/store.context";
+import {PortfolioService} from "../../../services/portfolio.service";
+import {Portfolio} from "../../../services/types/portfolio.type";
+import {useNavigate} from "react-router-dom";
 
 export default function AllPortfolios(): JSX.Element {
+    const navigate = useNavigate();
+    const [portfolios, setPortfolios] = useState<Portfolio[]>([])
+
+    const {authStore} = useContext(StoreContext);
+    const portfolioService = new PortfolioService(authStore);
+    const getAllPortfolios = async () => {
+        const response = await portfolioService.findAll();
+        console.log(response)
+        setPortfolios([]);
+    }
+
+    useEffect(() => {
+        getAllPortfolios()
+    }, [])
 
     return (
         <main>
@@ -33,7 +49,7 @@ export default function AllPortfolios(): JSX.Element {
                         color="text.primary"
                         gutterBottom
                     >
-                        Your album
+                        Your Portfolios
                     </Typography>
                     <Stack
                         sx={{pt: 1}}
@@ -47,10 +63,29 @@ export default function AllPortfolios(): JSX.Element {
                 </Container>
             </Box>
             <Container sx={{py: 1}} maxWidth="md">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                    {cards.map((card) => (
-                        <Grid item key={card} xs={12} sm={6} md={4}>
+                {portfolios?.length === 0 && <Box
+                    sx={{
+                        marginTop: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography component="h1" variant="h5">
+                        Looks like you do not have an portfolio
+                    </Typography>
+                    <Stack
+                        sx={{pt: 2, mt: 2}}
+                        direction="row"
+                        spacing={5}
+                        justifyContent="center"
+                    >
+                        <Button variant="outlined" onClick={()=> navigate('new')}>Create new</Button>
+                    </Stack>
+                </Box>}
+                {portfolios?.length > 0 && <Grid container spacing={4}>
+                    {portfolios.map(({id, description, name}) => (
+                        <Grid item key={id} xs={12} sm={6} md={4}>
                             <Card
                                 sx={{height: '100%', display: 'flex', flexDirection: 'column'}}
                             >
@@ -65,21 +100,21 @@ export default function AllPortfolios(): JSX.Element {
                                 />
                                 <CardContent sx={{flexGrow: 1}}>
                                     <Typography gutterBottom variant="h5" component="h2">
-                                        Heading
+                                        {name}
                                     </Typography>
                                     <Typography>
-                                        This is a media card. You can use this section to describe the
-                                        content.
+                                        {description}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">View</Button>
-                                    <Button size="small">Edit</Button>
+                                    <Button size="small" hidden={true}>Details</Button>
+                                    <Button size="small" hidden={true}>Edit</Button>
+                                    <Button size="small" hidden={true}>Remove</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
                     ))}
-                </Grid>
+                </Grid>}
             </Container>
         </main>
     );

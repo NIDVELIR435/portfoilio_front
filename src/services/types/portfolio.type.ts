@@ -1,6 +1,6 @@
 export type Portfolio = {
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
     id: number;
     name: string;
     description: string | null;

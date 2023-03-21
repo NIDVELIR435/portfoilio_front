@@ -51,4 +51,10 @@ export class PortfolioService {
             };
         }
     }
+
+    public findAll(): Promise<Portfolio[]> {
+           return this.agent.get<string>('portfolio/all')
+                .then(({data}) => JSON.parse(data));
+
+    }
 }
