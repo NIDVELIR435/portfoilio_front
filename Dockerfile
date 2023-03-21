@@ -7,6 +7,7 @@ WORKDIR /app
 #copy package and packege-lock
 COPY package*.json ./
 COPY yarn.lock ./
+COPY .env ./
 
 #install yarn
 RUN npm install yarn -G
