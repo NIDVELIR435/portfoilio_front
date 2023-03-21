@@ -10,15 +10,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
-import {StoreContext} from "../../../stores/store.context";
-import {UserService} from "../../../services/user.service";
 
 const cards = [1, 2, 3, 4, 5];
 
-export default function AllPortfolios(): JSX.Element {
 
-    const {authStore} = React.useContext(StoreContext);
-    const userService = new UserService(authStore);
+export default function AllPortfolios(): JSX.Element {
 
     return (
         <main>

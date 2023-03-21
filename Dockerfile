@@ -11,6 +11,10 @@ COPY yarn.lock ./
 #install yarn
 RUN npm install yarn -G
 
+RUN yarn install --frozen-lockfile
+
+EXPOSE 3000
+
 #install node_modules
 RUN yarn
 
@@ -20,12 +24,4 @@ COPY . .
 #create build
 RUN yarn build
 
-#STAGE 2
-FROM nginx:1.23.3-alpine
-
-WORKDIR usr/share/nginx/html
-RUN rm -rf ./*
-
-COPY --from=builder /app/build .
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["yarn", "start"]
