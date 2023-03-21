@@ -13,13 +13,14 @@ import {Navigate, NavLink,} from "react-router-dom";
 import {StoreContext} from "../../stores/store.context";
 import {useState} from "react";
 import {SeverityLevel, SimpleSnackbar} from "../snack-bar/SnackBar";
-import {User} from "../../services/auth.service";
 import {delay} from "lodash";
 import {LoadingButton} from "@mui/lab";
+import {User} from "../../services/types/user.type";
+import {observer} from "mobx-react-lite";
 
 const theme = createTheme();
 
-export const SignUp = (): JSX.Element => {
+export const SignUp = observer((): JSX.Element => {
     const {authStore} = React.useContext(StoreContext);
     const authenticated = authStore.isAuthenticated();
 
@@ -36,7 +37,7 @@ export const SignUp = (): JSX.Element => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        const partialEntity: Omit<User, "id" | "createdAt" | "updatedAt"> = {
+        const partialEntity: Omit<User, "id" | "createdAt" | "updatedAt" | 'uiTheme'> = {
             email: data.get('email') as string,
             password: data.get('password') as string,
             firstName: data.get('firstName') as string,
@@ -149,4 +150,4 @@ export const SignUp = (): JSX.Element => {
             </Container>
             <SimpleSnackbar severity={snackBarSeverity} show={openSnackBar} message={snackBarMessage}/>
         </ThemeProvider>
-}
+})

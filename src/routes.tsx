@@ -3,9 +3,9 @@ import {createBrowserRouter, Navigate} from "react-router-dom";
 import {SignUp} from "./components/sign/SignUp";
 import {SignIn} from "./components/sign/SignIn";
 import App from "./App";
-import Profile from "./components/profile/Profile";
 import NotFoundPage from "./components/not-found/NotFound";
 import {JwtRouteGuard} from "./guards/private-route.guard";
+import {Main} from "./components/profile/Main";
 
 const router = createBrowserRouter([
     {
@@ -15,15 +15,12 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'main',
-                element: <Profile/>
+                element: <Main/>
             }
         ],
     },
     {
         path: "sign-up",
-        action: (args) => {
-            console.log(args)
-        },
         element: <SignUp/>,
     },
     {

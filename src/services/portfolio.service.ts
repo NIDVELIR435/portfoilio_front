@@ -1,13 +1,26 @@
 import {Axios, AxiosResponse} from "axios";
-import {SignUpBody, User} from "./types/user.type";
+import {SignUpBody} from "./types/user.type";
 
-export class AuthService {
+export type User = {
+    "createdAt": Date,
+    "updatedAt": Date,
+    "id": number,
+    "firstName": string,
+    "lastName": string,
+    "email": string,
+    "password": string
+};
+
+export class PortfolioService {
     private readonly agent: Axios;
 
     constructor() {
+        const jwt = localStorage.getItem('access_token');
+        //todo add refresh
         this.agent = new Axios({
             baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
             headers: {
+                "Authorization": `Bearer ${jwt}`,
                 "Content-Type": 'application/json'
             }
         })

@@ -15,10 +15,11 @@ import {useState} from "react";
 import {LoadingButton} from "@mui/lab";
 import {SeverityLevel, SimpleSnackbar} from "../snack-bar/SnackBar";
 import {delay} from "lodash";
+import {observer} from "mobx-react-lite";
 
 const theme = createTheme();
 
-export const SignIn = (): JSX.Element => {
+export const SignIn = observer((): JSX.Element => {
     const {authStore} = React.useContext(StoreContext);
     const authenticated = authStore.isAuthenticated();
 
@@ -117,4 +118,4 @@ export const SignIn = (): JSX.Element => {
             </Container>
             <SimpleSnackbar severity={snackBarSeverity} show={openSnackBar} message={snackBarMessage}/>
         </ThemeProvider>
-}
+})

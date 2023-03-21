@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
-import {AuthService, User} from "../services/auth.service";
+import {AuthService} from "../services/auth.service";
 import {SeverityLevel} from "../components/snack-bar/SnackBar";
+import {User} from "../services/types/user.type";
 
 type ResponseType = {
     severity: SeverityLevel;
@@ -54,7 +55,7 @@ export class AuthStore {
     }
 
 
-    public async signUp(body: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<ResponseType> {
+    public async signUp(body: Omit<User, "id" | "createdAt" | "updatedAt" | 'uiTheme'>): Promise<ResponseType> {
         try {
             const response = await this.authService.signUp(body);
 
