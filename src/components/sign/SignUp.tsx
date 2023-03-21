@@ -60,7 +60,7 @@ export const SignUp = observer((): JSX.Element => {
     };
 
     return redirect || authenticated
-        ? <Navigate to="menu"/>
+        ? <Navigate to="menu/all"/>
         : <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>

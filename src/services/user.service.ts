@@ -1,12 +1,12 @@
 import {Axios, AxiosResponse} from "axios";
 import {User} from "./types/user.type";
+import {AuthStore} from "../stores/auth.store";
 
 export class UserService {
     private readonly agent: Axios;
 
-    constructor() {
-        const jwt = localStorage.getItem('access_token');
-        //todo add refresh
+    constructor(private readonly authStore: AuthStore) {
+        const jwt = this.authStore.getAccessToken();
         this.agent = new Axios({
             baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
             headers: {

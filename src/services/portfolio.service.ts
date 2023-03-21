@@ -1,37 +1,54 @@
-import {Axios, AxiosResponse} from "axios";
-import {SignUpBody} from "./types/user.type";
-
-export type User = {
-    "createdAt": Date,
-    "updatedAt": Date,
-    "id": number,
-    "firstName": string,
-    "lastName": string,
-    "email": string,
-    "password": string
-};
+import {Axios} from "axios";
+import {AuthStore} from "../stores/auth.store";
+import {Portfolio} from "./types/portfolio.type";
+import {ResponseType} from "./types/snack-bar-response.type";
 
 export class PortfolioService {
     private readonly agent: Axios;
 
-    constructor() {
-        const jwt = localStorage.getItem('access_token');
-        //todo add refresh
+    constructor(private readonly authStore: AuthStore) {
+        const jwt = this.authStore.getAccessToken();
         this.agent = new Axios({
             baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
             headers: {
                 "Authorization": `Bearer ${jwt}`,
                 "Content-Type": 'application/json'
-            }
+            },
+            responseType: 'json'
         })
     }
 
-    //returns jwt token
-    public signIn(requestBody: { email: string; password: string }): Promise<AxiosResponse<string>> {
-        return this.agent.post<string>('auth/sign-in',JSON.stringify(requestBody))
-    }
+    public async create(requestBody: Omit<Portfolio, "id" | "createdAt" | "updatedAt">): Promise<ResponseType> {
+        try {
+            const response = await this.agent.post<string>('portfolio/create', JSON.stringify(requestBody))
+                .then((response) => ({
+                    ...response,
+                    data: JSON.parse(response.data)
+                }));
 
-    public signUp(requestBody: SignUpBody): Promise<AxiosResponse<User>> {
-        return this.agent.post<User>('auth/sign-up', JSON.stringify(requestBody))
+            if (response.status === 201) {
+                return {
+                    severity: 'success',
+                    message: 'Success'
+                }
+            }
+
+            if (response.status === 400) {
+                return {
+                    severity: 'error',
+                    message: 'Portfolio already exist'
+                }
+            }
+
+            return {
+                severity: 'warning',
+                message: 'Something wrong happened during authentication'
+            };
+        } catch (error: unknown) {
+            return {
+                severity: 'error',
+                message: 'Something wrong happened during authentication'
+            };
+        }
     }
 }

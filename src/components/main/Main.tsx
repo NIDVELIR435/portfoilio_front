@@ -9,14 +9,17 @@ import Copyright from "../../common/components/copyright";
 import CustomizedMenus from "../toolbar/CostomizedMenu";
 import {PaletteMode} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import {ServicesContext} from "../../stores/store.context";
+import {StoreContext} from "../../stores/store.context";
 import {User} from "../../services/types/user.type";
 import {Outlet} from "react-router-dom";
+import {UserService} from "../../services/user.service";
+import {observer} from "mobx-react-lite";
 
-export const Main = (): JSX.Element => {
+export const Main = observer((): JSX.Element => {
     const [mode, setMode] = React.useState<PaletteMode>('light');
 
-    const {userService} = React.useContext(ServicesContext);
+    const {authStore} = React.useContext(StoreContext);
+    const userService = new UserService(authStore);
 
     const setTheme = (theme: Pick<User, 'uiTheme'>) => {
         userService.updateTheme(theme);
@@ -28,7 +31,7 @@ export const Main = (): JSX.Element => {
         if (prevMode !== newTheme)
             setTheme(newTheme as unknown as Pick<User, 'uiTheme'>);
 
-        return newTheme
+        return newTheme;
     });
 
     const getThemeModeFromBe = async () => {
@@ -64,4 +67,4 @@ export const Main = (): JSX.Element => {
             <Copyright sx={{mt: 8, mb: 4}}/>
         </ThemeProvider>
     );
-}
+});

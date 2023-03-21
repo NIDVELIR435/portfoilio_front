@@ -54,7 +54,7 @@ export const SignIn = observer((): JSX.Element => {
     };
 
     return redirect || authenticated
-        ? <Navigate to="/main"/>
+        ? <Navigate to="/main/all"/>
         : <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>

@@ -5,8 +5,9 @@ import {SignIn} from "./components/sign/SignIn";
 import App from "./App";
 import NotFoundPage from "./components/not-found/NotFound";
 import {JwtRouteGuard} from "./guards/private-route.guard";
-import {Main} from "./components/profile/Main";
-import Profile from "./components/profile/Profile";
+import {Main} from "./components/main/Main";
+import AllPortfolios from "./components/main/pages/AllPortfolios";
+import {NewPortfolio} from "./components/main/pages/NewPortfolio";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +23,12 @@ const router = createBrowserRouter([
                     {
                         path: 'all',
                         index: true,
-                        element: <Profile/>
+                        element: <AllPortfolios/>
+                    },
+                    {
+                        path: 'new',
+                        index: true,
+                        element: <NewPortfolio/>
                     },
                     {
                         path: '*',

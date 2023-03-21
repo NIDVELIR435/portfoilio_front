@@ -1,19 +1,14 @@
 import {makeAutoObservable} from "mobx";
 import {AuthService} from "../services/auth.service";
-import {SeverityLevel} from "../components/snack-bar/SnackBar";
 import {User} from "../services/types/user.type";
-
-type ResponseType = {
-    severity: SeverityLevel;
-    message: string
-}
+import {ResponseType} from "../services/types/snack-bar-response.type";
 
 export class AuthStore {
     private authenticated = false
 
     constructor(private readonly authService: AuthService) {
         makeAutoObservable(this);
-        this.getAccessToken();
+        this.setAccessToken();
     }
 
     public isAuthenticated(): boolean {
@@ -97,7 +92,11 @@ export class AuthStore {
 
     }
 
-    private getAccessToken(): void {
+    public getAccessToken(): string {
+        return localStorage.getItem('access_token') as string;
+    }
+
+    private setAccessToken(): void {
         this.authenticated = !!localStorage.getItem('access_token')
     }
 
