@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useContext, useEffect, useMemo, useState} from "react";
 import AppBar from '@mui/material/AppBar';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
@@ -12,14 +12,13 @@ import IconButton from "@mui/material/IconButton";
 import {StoreContext} from "../../stores/store.context";
 import {User} from "../../services/types/user.type";
 import {Outlet} from "react-router-dom";
-import {UserService} from "../../services/user.service";
 import {observer} from "mobx-react-lite";
 
-export const Main = observer((): JSX.Element => {
-    const [mode, setMode] = React.useState<PaletteMode>('light');
 
-    const {authStore} = React.useContext(StoreContext);
-    const userService = new UserService(authStore);
+export const Main = observer((): JSX.Element => {
+    const [mode, setMode] = useState<PaletteMode>('light');
+
+    const {userService} = useContext(StoreContext);
 
     const setTheme = (theme: Pick<User, 'uiTheme'>) => {
         userService.updateTheme(theme);
@@ -41,11 +40,11 @@ export const Main = observer((): JSX.Element => {
     }
 
 
-    React.useEffect(() => {
+    useEffect(() => {
         getThemeModeFromBe();
     }, [])
 
-    const theme = React.useMemo(() => createTheme({palette: {mode}}), [mode]);
+    const theme = useMemo(() => createTheme({palette: {mode}}), [mode]);
 
     return (
         <ThemeProvider theme={theme}>

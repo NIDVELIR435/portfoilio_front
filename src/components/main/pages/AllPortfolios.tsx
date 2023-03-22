@@ -12,7 +12,6 @@ import Container from '@mui/material/Container';
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {useContext, useEffect, useState} from "react";
 import {StoreContext} from "../../../stores/store.context";
-import {PortfolioService} from "../../../services/portfolio.service";
 import {Portfolio} from "../../../services/types/portfolio.type";
 import {useNavigate} from "react-router-dom";
 
@@ -20,12 +19,11 @@ export default function AllPortfolios(): JSX.Element {
     const navigate = useNavigate();
     const [portfolios, setPortfolios] = useState<Portfolio[]>([])
 
-    const {authStore} = useContext(StoreContext);
-    const portfolioService = new PortfolioService(authStore);
+    const {portfolioService} = useContext(StoreContext);
+
     const getAllPortfolios = async () => {
         const response = await portfolioService.findAll();
-        console.log(response)
-        setPortfolios([]);
+        setPortfolios(response);
     }
 
     useEffect(() => {

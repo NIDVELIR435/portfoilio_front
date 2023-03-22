@@ -1,24 +1,16 @@
 import {Axios, AxiosResponse} from "axios";
 import {User} from "./types/user.type";
-import {AuthStore} from "../stores/auth.store";
+import {AxiosService} from "./axios.service";
 
 export class UserService {
     private readonly agent: Axios;
 
-    constructor(private readonly authStore: AuthStore) {
-        const jwt = this.authStore.getAccessToken();
-        this.agent = new Axios({
-            baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
-            headers: {
-                "Authorization": `Bearer ${jwt}`,
-                "Content-Type": 'application/json'
-            },
-            responseType: 'json'
-        })
+    constructor(private readonly axiosService: AxiosService) {
+        this.agent = this.axiosService.getInstance();
     }
 
     public getUser(): Promise<AxiosResponse<User>> {
-        return this.agent.get<string>('user/info').then((response) => ({...response, data: JSON.parse(response.data)}));
+        return this.agent.get<User>('user/info')
     }
 
     public updateTheme(uiTheme: Pick<User, 'uiTheme'>): Promise<AxiosResponse<boolean>> {

@@ -13,7 +13,6 @@ import {delay} from "lodash";
 import {Portfolio} from "../../../services/types/portfolio.type";
 import {StoreContext} from "../../../stores/store.context";
 import {SeverityLevel, SimpleSnackbar} from "../../snack-bar/SnackBar";
-import {PortfolioService} from "../../../services/portfolio.service";
 import {Navigate} from "react-router-dom";
 
 export const NewPortfolio: React.FC = (): JSX.Element => {
@@ -25,8 +24,7 @@ export const NewPortfolio: React.FC = (): JSX.Element => {
     const [snackBarMessage, setSnackBarMessage] = useState<string>('');
 
 
-    const {authStore} = useContext(StoreContext);
-    const portfolioService = new PortfolioService(authStore);
+    const {portfolioService} = useContext(StoreContext);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

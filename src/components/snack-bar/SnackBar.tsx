@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import {useEffect} from "react";
-import {Alert} from "@mui/lab";
+import {Alert} from "@mui/material";
 
 export type SeverityLevel = 'error' | 'warning' | 'success' | 'info'
 

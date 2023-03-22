@@ -21,7 +21,6 @@ const theme = createTheme();
 
 export const SignIn = observer((): JSX.Element => {
     const {authStore} = React.useContext(StoreContext);
-    const authenticated = authStore.isAuthenticated();
 
     const [busy, setBusy] = useState(false);
     const [redirect, setRedirect] = useState(false);
@@ -48,12 +47,12 @@ export const SignIn = observer((): JSX.Element => {
 
         delay(() => {
             setOpenSnackBar(false);
-            if (authenticated)
+            if (authStore.authenticated)
                 setRedirect(true);
         }, 3000)
     };
 
-    return redirect || authenticated
+    return redirect || authStore.authenticated
         ? <Navigate to="/main/all"/>
         : <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">

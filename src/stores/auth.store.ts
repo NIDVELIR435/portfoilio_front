@@ -2,17 +2,14 @@ import {makeAutoObservable} from "mobx";
 import {AuthService} from "../services/auth.service";
 import {User} from "../services/types/user.type";
 import {ResponseType} from "../services/types/snack-bar-response.type";
+import {LocalStorageName} from "../services/enums/local-storage-name.enum";
 
 export class AuthStore {
-    private authenticated = false
+    public authenticated = false;
 
     constructor(private readonly authService: AuthService) {
         makeAutoObservable(this);
         this.setAccessToken();
-    }
-
-    public isAuthenticated(): boolean {
-        return this.authenticated
     }
 
     public async signIn(requestBody: { email: string, password: string }): Promise<ResponseType> {
@@ -20,8 +17,7 @@ export class AuthStore {
             const response = await this.authService.signIn(requestBody);
 
             if (response.status === 200) {
-                localStorage.setItem('access_token', response.data);
-                this.setAuthenticate(true);
+                this.writeToStore(response.data)
                 return {
                     severity: 'success',
                     message: 'Success'
@@ -29,7 +25,7 @@ export class AuthStore {
             }
 
             if (response.status === 401) {
-                localStorage.setItem('access_token', response.data);
+                this.signOut();
                 return {
                     severity: 'error',
                     message: 'Wrong email or password'
@@ -41,14 +37,13 @@ export class AuthStore {
                 message: 'Something wrong happened during authentication'
             };
         } catch (error: unknown) {
-            this.setAuthenticate(false)
+            this.signOut();
             return {
                 severity: 'error',
                 message: 'Something wrong happened during authentication'
             };
         }
     }
-
 
     public async signUp(body: Omit<User, "id" | "createdAt" | "updatedAt" | 'uiTheme'>): Promise<ResponseType> {
         try {
@@ -93,15 +88,25 @@ export class AuthStore {
     }
 
     public getAccessToken(): string {
-        return localStorage.getItem('access_token') as string;
+        return localStorage.getItem(LocalStorageName.ACCESS_TOKEN) as string;
     }
 
-    private setAccessToken(): void {
-        this.authenticated = !!localStorage.getItem('access_token')
+    public signOut(): void {
+        localStorage.removeItem(LocalStorageName.ACCESS_TOKEN);
+        this.setAuthenticate(false)
     }
 
-    private setAuthenticate(value: boolean) {
+
+    private writeToStore(token: string): void {
+        localStorage.setItem(LocalStorageName.ACCESS_TOKEN, token);
+        this.setAuthenticate(true);
+    }
+
+    private setAuthenticate(value: boolean): void {
         this.authenticated = value;
     }
 
+    private setAccessToken(): void {
+        this.authenticated = !!localStorage.getItem(LocalStorageName.ACCESS_TOKEN)
+    }
 }
