@@ -20,7 +20,7 @@ import {observer} from "mobx-react-lite";
 const theme = createTheme();
 
 export const SignIn = observer((): JSX.Element => {
-    const {authStore} = React.useContext(StoreContext);
+    const {authStore, userService} = React.useContext(StoreContext);
 
     const [busy, setBusy] = useState(false);
     const [redirect, setRedirect] = useState(false);
@@ -39,6 +39,8 @@ export const SignIn = observer((): JSX.Element => {
 
         setBusy(true);
         const {severity, message} = await authStore.signIn({email, password});
+        //write user to local storage and service
+        await userService.defineUser()
 
         setSnackBarSeverity(severity);
         setSnackBarMessage(message);

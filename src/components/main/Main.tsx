@@ -1,4 +1,4 @@
-import {useContext, useEffect, useMemo, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import AppBar from '@mui/material/AppBar';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
@@ -10,7 +10,6 @@ import CustomizedMenus from "../toolbar/CostomizedMenu";
 import {PaletteMode} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import {StoreContext} from "../../stores/store.context";
-import {User} from "../../services/types/user.type";
 import {Outlet} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 
@@ -20,40 +19,23 @@ export const Main = observer((): JSX.Element => {
 
     const {userService} = useContext(StoreContext);
 
-    const setTheme = (theme: Pick<User, 'uiTheme'>) => {
-        userService.updateTheme(theme);
+    const changeMode = async (uiTheme: 'light' | 'dark') => {
+        await userService.updateTheme(uiTheme);
     }
 
-    const changeMode = () => setMode((prevMode) => {
-        const newTheme = prevMode === 'light' ? 'dark' : 'light';
-
-        if (prevMode !== newTheme)
-            setTheme(newTheme as unknown as Pick<User, 'uiTheme'>);
-
-        return newTheme;
-    });
-
-    const getThemeModeFromBe = async () => {
-        const user = (await userService.getUser()).data;
-
-        setMode(user.uiTheme);
-    }
-
-
-    useEffect(() => {
-        getThemeModeFromBe();
-    }, [])
-
-    const theme = useMemo(() => createTheme({palette: {mode}}), [mode]);
+    useEffect(()=> {
+        setMode(userService.userTheme);
+    },[userService.userTheme])
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={createTheme({palette: {mode}})}>
             <CssBaseline/>
             <AppBar position="fixed">
                 <Toolbar sx={{justifyContent: "space-between"}}>
                     {/*dropdown menu*/}
                     <CustomizedMenus/>
-                    <IconButton sx={{ml: 1}} onClick={changeMode} color="inherit">
+                    <IconButton sx={{ml: 1}} onClick={() => changeMode(mode === 'light' ? 'dark' : 'light')}
+                                color="inherit">
                         {mode === 'light' ? <DarkMode/> : <LightMode/>}
                     </IconButton>
                 </Toolbar>

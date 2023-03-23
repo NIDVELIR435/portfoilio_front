@@ -1,5 +1,5 @@
 import {Axios, AxiosResponse} from "axios";
-import {SignUpBody, User} from "./types/user.type";
+import {SignUpBody, User} from "../types/user.type";
 
 export class AuthService {
     private readonly agent: Axios;

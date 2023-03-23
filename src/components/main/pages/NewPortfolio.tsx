@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import {LoadingButton} from "@mui/lab";
 import Copyright from "../../../common/components/copyright";
 import {delay} from "lodash";
-import {Portfolio} from "../../../services/types/portfolio.type";
+import {Portfolio} from "../../../stores/types/portfolio.type";
 import {StoreContext} from "../../../stores/store.context";
 import {SeverityLevel, SimpleSnackbar} from "../../snack-bar/SnackBar";
 import {Navigate} from "react-router-dom";

@@ -1,8 +1,8 @@
 import {makeAutoObservable} from "mobx";
-import {AuthService} from "../services/auth.service";
-import {User} from "../services/types/user.type";
-import {ResponseType} from "../services/types/snack-bar-response.type";
-import {LocalStorageName} from "../services/enums/local-storage-name.enum";
+import {AuthService} from "./services/auth.service";
+import {User} from "./types/user.type";
+import {ResponseType} from "./types/snack-bar-response.type";
+import {LocalStorageName} from "./enums/local-storage-name.enum";
 
 export class AuthStore {
     public authenticated = false;

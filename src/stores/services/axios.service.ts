@@ -1,5 +1,5 @@
 import {Axios} from "axios";
-import {AuthStore} from "../stores/auth.store";
+import {AuthStore} from "../auth.store";
 import {get, isNil} from "lodash";
 
 

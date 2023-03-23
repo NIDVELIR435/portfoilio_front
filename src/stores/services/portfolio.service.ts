@@ -1,6 +1,6 @@
 import {Axios} from "axios";
-import {Portfolio} from "./types/portfolio.type";
-import {ResponseType} from "./types/snack-bar-response.type";
+import {Portfolio} from "../types/portfolio.type";
+import {ResponseType} from "../types/snack-bar-response.type";
 import {AxiosService} from "./axios.service";
 
 export class PortfolioService {

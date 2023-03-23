@@ -15,13 +15,13 @@ import {useState} from "react";
 import {SeverityLevel, SimpleSnackbar} from "../snack-bar/SnackBar";
 import {delay} from "lodash";
 import {LoadingButton} from "@mui/lab";
-import {User} from "../../services/types/user.type";
+import {User} from "../../stores/types/user.type";
 import {observer} from "mobx-react-lite";
 
 const theme = createTheme();
 
 export const SignUp = observer((): JSX.Element => {
-    const {authStore} = React.useContext(StoreContext);
+    const {authStore, userService} = React.useContext(StoreContext);
 
     const [busy, setBusy] = useState(false);
     const [redirect, setRedirect] = useState(false);
@@ -45,6 +45,8 @@ export const SignUp = observer((): JSX.Element => {
 
         setBusy(true)
         const {severity, message} = await authStore.signUp(partialEntity);
+        //write user to local storage and service
+        await userService.defineUser()
 
         setSnackBarSeverity(severity);
         setSnackBarMessage(message);

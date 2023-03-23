@@ -1,10 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,21 +7,79 @@ import Container from '@mui/material/Container';
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {useContext, useEffect, useState} from "react";
 import {StoreContext} from "../../../stores/store.context";
-import {Portfolio} from "../../../services/types/portfolio.type";
-import {useNavigate} from "react-router-dom";
+import {Portfolio} from "../../../stores/types/portfolio.type";
+import {EmptyPortfolioList} from "./EmptyPortfolioList";
+import {findLastIndex, isNil} from "lodash";
+import {PortfolioTitle} from "./PortfolioTitle";
+
+type PortfoliosInfo = {
+    firstItem: number;
+    lastItem: number;
+    currentIndex: number;
+    count: number
+};
 
 export default function AllPortfolios(): JSX.Element {
-    const navigate = useNavigate();
-    const [portfolios, setPortfolios] = useState<Portfolio[]>([])
+    const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+    const [portfoliosInfo, setPortfoliosInfo] = useState<PortfoliosInfo>({
+        firstItem: 0,
+        lastItem: 0,
+        currentIndex: 0,
+        count: 0,
+    });
+    const [nowFirstItem, setFirstItem] = useState<boolean>(true);
+    const [nowLastItem, setLastItem] = useState<boolean>(false);
 
     const {portfolioService} = useContext(StoreContext);
 
+    const next = () => {
+        if (nowLastItem) return;
+
+        const nextIndex = portfoliosInfo.currentIndex + 1;
+
+        const nextItem = portfolios[nextIndex];
+
+        if (!isNil(nextItem)) {
+            setFirstItem(false);
+            setLastItem(portfoliosInfo.lastItem === nextIndex);
+            setPortfoliosInfo(({currentIndex, ...rest}) => ({
+                currentIndex: nextIndex,
+                ...rest
+            }))
+        }
+    }
+    const previous = () => {
+        if (nowFirstItem) return;
+
+        const previousIndex = portfoliosInfo.currentIndex - 1;
+
+        const previousItem = portfolios[previousIndex];
+
+        if (!isNil(previousItem)) {
+            setFirstItem(portfoliosInfo.firstItem === previousIndex);
+            setLastItem(false);
+            setPortfoliosInfo(({currentIndex, ...rest}) => ({
+                currentIndex: previousIndex,
+                ...rest
+            }))
+        }
+
+    }
+
     const getAllPortfolios = async () => {
         const response = await portfolioService.findAll();
+
         setPortfolios(response);
+        setPortfoliosInfo({
+            firstItem: 0,
+            lastItem: findLastIndex(response),
+            currentIndex: 0,
+            count: response.length
+        })
     }
 
     useEffect(() => {
+        //todo reimplement this
         getAllPortfolios()
     }, [])
 
@@ -47,7 +100,7 @@ export default function AllPortfolios(): JSX.Element {
                         color="text.primary"
                         gutterBottom
                     >
-                        Your Portfolios
+                        {portfolios[portfoliosInfo.currentIndex]?.name}
                     </Typography>
                     <Stack
                         sx={{pt: 1}}
@@ -55,64 +108,17 @@ export default function AllPortfolios(): JSX.Element {
                         spacing={5}
                         justifyContent="center"
                     >
-                        <Button variant="outlined" startIcon={<KeyboardArrowLeft/>}>Previous</Button>
-                        <Button variant="outlined" endIcon={<KeyboardArrowRight/>}>Next</Button>
+                        <Button variant="outlined" startIcon={<KeyboardArrowLeft/>}
+                                disabled={portfoliosInfo.count <= 1 || nowFirstItem} onClick={previous}>Previous</Button>
+                        <Button variant="outlined" endIcon={<KeyboardArrowRight/>}
+                                disabled={portfoliosInfo.count <= 1 || nowLastItem} onClick={next}>Next</Button>
                     </Stack>
                 </Container>
             </Box>
             <Container sx={{py: 1}} maxWidth="md">
-                {portfolios?.length === 0 && <Box
-                    sx={{
-                        marginTop: 0,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Typography component="h1" variant="h5">
-                        Looks like you do not have an portfolio
-                    </Typography>
-                    <Stack
-                        sx={{pt: 2, mt: 2}}
-                        direction="row"
-                        spacing={5}
-                        justifyContent="center"
-                    >
-                        <Button variant="outlined" onClick={()=> navigate('new')}>Create new</Button>
-                    </Stack>
-                </Box>}
-                {portfolios?.length > 0 && <Grid container spacing={4}>
-                    {portfolios.map(({id, description, name}) => (
-                        <Grid item key={id} xs={12} sm={6} md={4}>
-                            <Card
-                                sx={{height: '100%', display: 'flex', flexDirection: 'column'}}
-                            >
-                                <CardMedia
-                                    component="img"
-                                    sx={{
-                                        // 16:9
-                                        pt: '56.25%',
-                                    }}
-                                    image="https://source.unsplash.com/random"
-                                    alt="random"
-                                />
-                                <CardContent sx={{flexGrow: 1}}>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {name}
-                                    </Typography>
-                                    <Typography>
-                                        {description}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button size="small" hidden={true}>Details</Button>
-                                    <Button size="small" hidden={true}>Edit</Button>
-                                    <Button size="small" hidden={true}>Remove</Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>}
+                {portfolios?.length > 0
+                    ? <PortfolioTitle portfolio={portfolios[portfoliosInfo.currentIndex] as Portfolio}/>
+                    : <EmptyPortfolioList/>}
             </Container>
         </main>
     );
