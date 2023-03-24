@@ -86,7 +86,7 @@ export default function CustomizedMenus() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={()=> navigate('all')} disableRipple>
+                <MenuItem onClick={()=> navigate('list')} disableRipple>
                     <FileCopyIcon />
                     My portfolios
                 </MenuItem>
@@ -95,11 +95,11 @@ export default function CustomizedMenus() {
                     Create new
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose} disableRipple disabled={true}>
+                <MenuItem disableRipple disabled={true}>
                     <ArchiveIcon />
                     Archive
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple disabled={true}>
+                <MenuItem disableRipple disabled={true}>
                     <MoreHorizIcon />
                     More
                 </MenuItem>

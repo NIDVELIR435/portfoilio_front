@@ -1,59 +1,70 @@
 import React from "react";
-import {createBrowserRouter, Navigate} from "react-router-dom";
-import {SignUp} from "./components/sign/SignUp";
-import {SignIn} from "./components/sign/SignIn";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { SignUp } from "./components/sign/SignUp";
+import { SignIn } from "./components/sign/SignIn";
 import App from "./App";
 import NotFoundPage from "./components/not-found/NotFound";
-import {JwtRouteGuard} from "./guards/private-route.guard";
-import {Main} from "./components/main/Main";
-import AllPortfolios from "./components/main/pages/AllPortfolios";
-import {NewPortfolio} from "./components/main/pages/NewPortfolio";
+import { JwtRouteGuard } from "./guards/private-route.guard";
+import { Main } from "./components/main/Main";
+import { NewPortfolio } from "./components/main/portfolio/NewPortfolio";
+import { AllPortfolios } from "./components/main/portfolio/AllPortfolios";
+import { PortfolioDetail } from "./components/main/portfolio/PortfolioDetail";
 
 const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <JwtRouteGuard><App/></JwtRouteGuard>,
-        errorElement: <NotFoundPage/>,
+  {
+    path: "/",
+    element: (
+      <JwtRouteGuard>
+        <App />
+      </JwtRouteGuard>
+    ),
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: "main",
+        element: <Main />,
+        errorElement: <NotFoundPage />,
         children: [
-            {
-                path: 'main',
-                element: <Main/>,
-                errorElement: <NotFoundPage/>,
-                children: [
-                    {
-                        path: 'all',
-                        index: true,
-                        element: <AllPortfolios/>
-                    },
-                    {
-                        path: 'new',
-                        index: true,
-                        element: <NewPortfolio/>
-                    },
-                    {
-                        path: '*',
-                        element: <Navigate to={'all'}/>
-                    }
-                ]
-            },
-            {
-                path: '*',
-                element: <Navigate to={'main/all'}/>
-            }
+          {
+            path: "list/:portfolioId",
+            element: <PortfolioDetail />,
+          },
+          {
+            path: "list",
+            index: true,
+            element: <AllPortfolios />,
+          },
+
+          {
+            path: "new",
+            index: true,
+            element: <NewPortfolio />,
+          },
+
+          {
+            path: "*",
+            element: <Navigate to={"list"} />,
+          },
         ],
-    },
-    {
-        path: "sign-up",
-        element: <SignUp/>,
-    },
-    {
-        path: "sign-in",
-        element: <SignIn/>,
-    },
-    {
-        path: '*',
-        element: <Navigate to="sign-in"/>
-    },
+      },
+      {
+        path: "*",
+        element: <Navigate to={"main/all"} />,
+      },
+    ],
+  },
+  {
+    path: "sign-up",
+    element: <SignUp />,
+  },
+  {
+    path: "sign-in",
+    element: <SignIn />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="sign-in" />,
+  },
 ]);
 
 export default router;

@@ -45,7 +45,7 @@ export const Main = observer((): JSX.Element => {
             <Outlet/>
 
             {/*footer*/}
-            <Copyright sx={{mt: 8, mb: 4}}/>
+            <Copyright sx={{mt: 1, mb: 4}}/>
         </ThemeProvider>
     );
 });

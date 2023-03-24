@@ -31,7 +31,7 @@ const NotFoundPage: React.FC = (): JSX.Element => {
                     </Typography>
                 </Box>
                 <Box sx={{bgcolor: 'background.paper', p: 6}} component="footer">
-                    <Copyright sx={{mt: 8, mb: 4}}/>
+                    <Copyright sx={{mt: 1, mb: 4}}/>
                 </Box>
             </Container>
         </ThemeProvider>

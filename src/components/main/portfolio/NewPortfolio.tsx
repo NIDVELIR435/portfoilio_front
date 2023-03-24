@@ -53,7 +53,7 @@ export const NewPortfolio: React.FC = (): JSX.Element => {
     };
 
     return redirect
-        ? <Navigate to="all"/>
+        ? <Navigate to='list'/>
         : <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <Box
@@ -106,7 +106,7 @@ export const NewPortfolio: React.FC = (): JSX.Element => {
                 </Box>
             </Box>
             <Box sx={{bgcolor: 'background.paper', p: 6}} component="footer">
-                <Copyright sx={{mt: 8, mb: 4}}/>
+                <Copyright sx={{mt: 1, mb: 4}}/>
             </Box>
             <SimpleSnackbar severity={snackBarSeverity} show={openSnackBar} message={snackBarMessage}/>
         </Container>
