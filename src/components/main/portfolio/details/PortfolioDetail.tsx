@@ -1,45 +1,42 @@
 import { useEffect, FC, useContext, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { StoreContext } from "../../../stores/store.context";
-import { Image } from "../../../stores/types/image.type";
-import { Portfolio } from "../../../stores/types/portfolio.type";
+import { StoreContext } from "../../../../stores/store.context";
+import { Image } from "../../../../stores/types/image.type";
+import { Portfolio } from "../../../../stores/types/portfolio.type";
 import * as React from "react";
 import { ImageList, ImageListItem, Tooltip } from "@mui/material";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Backdrop } from "../../../common/components/Backdrop";
+import { Backdrop } from "../../../../common/components/Backdrop";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { LoadingButton } from "@mui/lab";
 import { isNil } from "lodash";
 import { DateTime } from "luxon";
+import { NewImage } from "./NewImage";
+import { iconColor } from "../../../../common/constants/icon-color.constant";
+import Typography from "@mui/material/Typography";
 
-const iconColor = "rgba(255, 255, 255, 0.54)";
-
-export const PortfolioDetail: FC = (): JSX.Element => {
-  const { portfolioId } = useParams<{ portfolioId: string }>();
-
+export const PortfolioDetail: FC<{ portfolio: Portfolio }> = ({
+  portfolio,
+}): JSX.Element => {
   const [images, setImages] = useState<Image[]>([]);
-  const [portfolio, setPortfolio] = useState<Portfolio>();
   const [busy, setBusy] = useState<boolean>(false);
 
   const [headerHeight, setHeaderHeight] = useState(0);
   const [screenHeight] = useState(window.screen.height);
 
-  const { portfolioService, imageService } = useContext(StoreContext);
+  const { imageService } = useContext(StoreContext);
 
   const getAll = async (): Promise<void> => {
     setBusy(true);
-    const id = Number(portfolioId);
+    const id = Number(portfolio.id);
 
     const images = await imageService.findAllPortfolioId(id);
     setImages(images);
-    const portfolio = await portfolioService.findOneById(id);
-    setPortfolio(portfolio);
     setBusy(false);
   };
 
@@ -72,7 +69,7 @@ export const PortfolioDetail: FC = (): JSX.Element => {
 
   useEffect(() => {
     getAll();
-  }, [portfolioId]);
+  }, [portfolio]);
 
   return (
     <main>
@@ -82,21 +79,20 @@ export const PortfolioDetail: FC = (): JSX.Element => {
         }}
         ref={div}
       >
-        <Container sx={{ mt: 10 }}>
+        <Container>
           <Grid
             container
             sx={{
               boxShadow: 3,
-              p: 3,
-
-              maxHeight: screenHeight - headerHeight - 200,
+              p: 2,
+              height: screenHeight - headerHeight - 400,
             }}
           >
             <Grid item xs={6}>
               <ImageList
                 sx={{
                   width: 500,
-                  maxHeight: screenHeight - headerHeight - 300,
+                  maxHeight: screenHeight - headerHeight - 500,
                 }}
                 cols={1}
                 rowHeight={500}
@@ -136,15 +132,9 @@ export const PortfolioDetail: FC = (): JSX.Element => {
             </Grid>
             <Grid item xs={6}>
               <Box component="form" onSubmit={() => {}} sx={{ mt: 1 }}>
-                <TextField
-                  margin="dense"
-                  fullWidth
-                  id="name"
-                  type="text"
-                  name="name"
-                  label="Name"
-                  value={portfolio?.name ?? ""}
-                />
+                <Typography variant="h4" gutterBottom>
+                  Details
+                </Typography>
                 <TextField
                   margin="dense"
                   fullWidth
@@ -184,6 +174,11 @@ export const PortfolioDetail: FC = (): JSX.Element => {
                   update
                 </LoadingButton>
               </Box>
+              <NewImage
+                portfolioId={portfolio.id}
+                busyState={[busy, setBusy]}
+                imagesState={[images, setImages]}
+              />
             </Grid>
           </Grid>
           <Backdrop show={busy} />

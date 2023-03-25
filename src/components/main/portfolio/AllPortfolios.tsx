@@ -8,9 +8,9 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../../../stores/store.context";
 import { findLastIndex, isNil } from "lodash";
-import { PortfolioTitle } from "./PortfolioTitle";
 import { Portfolio } from "../../../stores/types/portfolio.type";
 import { EmptyPortfolioList } from "./EmptyPortfolioList";
+import { PortfolioDetail } from "./details/PortfolioDetail";
 
 type PortfoliosInfo = {
   firstItem: number;
@@ -20,7 +20,6 @@ type PortfoliosInfo = {
 };
 
 export const AllPortfolios: React.FC = (props, context): JSX.Element => {
-  console.log({ props, context });
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [portfoliosInfo, setPortfoliosInfo] = useState<PortfoliosInfo>({
     firstItem: 0,
@@ -128,15 +127,13 @@ export const AllPortfolios: React.FC = (props, context): JSX.Element => {
         </Container>
       </Box>
 
-      <Container sx={{ py: 1 }} maxWidth="md">
-        {portfolios?.length > 0 ? (
-          <PortfolioTitle
-            portfolio={portfolios[portfoliosInfo.currentIndex] as Portfolio}
-          />
-        ) : (
-          <EmptyPortfolioList />
-        )}
-      </Container>
+      {portfolios?.length > 0 ? (
+        <PortfolioDetail
+          portfolio={portfolios[portfoliosInfo.currentIndex] as Portfolio}
+        />
+      ) : (
+        <EmptyPortfolioList />
+      )}
     </main>
   );
 };

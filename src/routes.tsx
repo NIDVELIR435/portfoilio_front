@@ -8,7 +8,6 @@ import { JwtRouteGuard } from "./guards/private-route.guard";
 import { Main } from "./components/main/Main";
 import { NewPortfolio } from "./components/main/portfolio/NewPortfolio";
 import { AllPortfolios } from "./components/main/portfolio/AllPortfolios";
-import { PortfolioDetail } from "./components/main/portfolio/PortfolioDetail";
 
 const router = createBrowserRouter([
   {
@@ -25,10 +24,6 @@ const router = createBrowserRouter([
         element: <Main />,
         errorElement: <NotFoundPage />,
         children: [
-          {
-            path: "list/:portfolioId",
-            element: <PortfolioDetail />,
-          },
           {
             path: "list",
             index: true,

@@ -15,6 +15,15 @@ export class ImageService {
       .then(({ data }) => data);
   }
 
+  public createImage(
+    portfolioId: number,
+    body: Pick<Image, "url"> & Partial<Pick<Image, "description">>
+  ): Promise<Image> {
+    return this.agent
+      .post<Image>(`image/upload`, JSON.stringify({ portfolioId, ...body }))
+      .then(({ data }) => data);
+  }
+
   public removeById(id: number): Promise<boolean> {
     return this.agent.delete<boolean>(`image/${id}`).then(({ data }) => data);
   }
