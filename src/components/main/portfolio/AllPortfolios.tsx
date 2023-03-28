@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../../../stores/store.context";
-import { findLastIndex, isNil } from "lodash";
+import { findLastIndex, get, isNil } from "lodash";
 import { Portfolio } from "../../../stores/types/portfolio.type";
 import { EmptyPortfolioList } from "./EmptyPortfolioList";
 import { PortfolioDetail } from "./details/PortfolioDetail";
@@ -129,7 +129,9 @@ export const AllPortfolios: React.FC = (props, context): JSX.Element => {
 
       {portfolios?.length > 0 ? (
         <PortfolioDetail
-          portfolio={portfolios[portfoliosInfo.currentIndex] as Portfolio}
+          portfolio={
+            get(portfolios, [portfoliosInfo.currentIndex]) as Portfolio
+          }
         />
       ) : (
         <EmptyPortfolioList />

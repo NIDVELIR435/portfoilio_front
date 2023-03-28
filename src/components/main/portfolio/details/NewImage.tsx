@@ -24,12 +24,8 @@ import { Image } from "../../../../stores/types/image.type";
 export const NewImage: React.FC<{
   portfolioId: number;
   busyState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  imagesState: [Image[], React.Dispatch<React.SetStateAction<Image[]>>];
-}> = ({
-  portfolioId,
-  busyState: [busy, setBusy],
-  imagesState: [images, setImages],
-}): JSX.Element => {
+  setImages: React.Dispatch<React.SetStateAction<Image[]>>;
+}> = ({ portfolioId, busyState: [busy, setBusy], setImages }): JSX.Element => {
   const [url, setUrl] = useState<string>("");
   const [urlError, setUrlError] = useState<boolean>(false);
   const [urlBusy, setUrlBusy] = useState<boolean>(false);
@@ -48,7 +44,7 @@ export const NewImage: React.FC<{
       await imageService
         .createImage(portfolioId, { url, description })
         .then((newImage) => {
-          setImages([newImage, ...images]);
+          setImages((images) => [newImage, ...images]);
         })
         .finally(() => {
           setBusy(false);

@@ -1,6 +1,6 @@
 import { Axios } from "axios";
 import { AuthStore } from "../auth.store";
-import { get, isNil } from "lodash";
+import { transformResponse } from "../utils/transform-response.util";
 
 export class AxiosService {
   private readonly agent: Axios;
@@ -10,9 +10,6 @@ export class AxiosService {
       "Content-Type": "application/json",
     };
 
-    const jwt = this.authStore.getAccessToken();
-    if (!isNil(jwt)) headers["Authorization"] = `Bearer ${jwt}`;
-
     this.agent = new Axios({
       baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
       headers,
@@ -20,23 +17,14 @@ export class AxiosService {
         silentJSONParsing: true,
       },
       responseType: "json",
-      transformResponse: (data, headers) => {
-        if (headers["content-type"]?.includes("application/json"))
-          return JSON.parse(data);
-
-        return data;
-      },
+      transformResponse,
     });
 
     this.agent.interceptors.request.use(
       (config) => {
-        if (isNil(get(config, "headers.Authorization", null))) {
-          const jwt = this.authStore.getAccessToken();
+        const jwt = this.authStore.getAccessToken();
 
-          if (isNil(jwt)) authStore.signOut();
-
-          config.headers["Authorization"] = `Bearer ${jwt}`;
-        }
+        config.headers["Authorization"] = `Bearer ${jwt}`;
 
         return config;
       },

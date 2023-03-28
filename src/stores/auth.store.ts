@@ -3,6 +3,7 @@ import { AuthService } from "./services/auth.service";
 import { User } from "./types/user.type";
 import { ResponseType } from "./types/snack-bar-response.type";
 import { LocalStorageName } from "./enums/local-storage-name.enum";
+import { AxiosError } from "axios";
 
 export class AuthStore {
   public authenticated = false;
@@ -17,17 +18,19 @@ export class AuthStore {
     password: string;
   }): Promise<ResponseType> {
     try {
-      const response = await this.authService.signIn(requestBody);
+      const { status, data } = await this.authService.signIn(requestBody);
 
-      if (response.status === 200) {
-        await this.writeToStore(response.data);
+      if (status === 200) {
+        await this.writeToStore(data.accessToken);
+        this.writeToCookie(data.refreshToken);
+        console.log({ cookie: document.cookie });
         return {
           severity: "success",
           message: "Success",
         };
       }
 
-      if (response.status === 401) {
+      if (status === 401) {
         this.signOut();
         return {
           severity: "error",
@@ -46,6 +49,25 @@ export class AuthStore {
         message: "Something wrong happened during authentication",
       };
     }
+  }
+
+  public refreshToken() {
+    return this.authService
+      .refreshToken()
+      .then(async ({ data, status }) => {
+        if (status === 200) {
+          await this.writeToStore(data.accessToken);
+          this.writeToCookie(data.refreshToken);
+          return {
+            severity: "success",
+            message: "Success",
+          };
+        }
+      })
+      .catch((error: AxiosError) => {
+        this.signOut();
+        throw new Error(error.message);
+      });
   }
 
   public async signUp(
@@ -110,6 +132,10 @@ export class AuthStore {
       .then(() => {
         this.setAuthenticate(true);
       });
+  }
+
+  private writeToCookie(refreshToken: string): void {
+    document.cookie = `refresh_token=${refreshToken}`;
   }
 
   private setAuthenticate(value: boolean): void {

@@ -48,6 +48,7 @@ export const SignIn = observer((): JSX.Element => {
     setBusy(false);
 
     delay(() => {
+      console.log("delay");
       setOpenSnackBar(false);
       if (authStore.authenticated) setRedirect(true);
     }, 5000);
