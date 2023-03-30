@@ -3,7 +3,7 @@ import * as React from "react";
 
 //components
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import Copyright from "../../common/components/copyright";
+import Copyright from "../../common/components/Copyright";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";

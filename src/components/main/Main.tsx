@@ -9,7 +9,7 @@ import DarkMode from "@mui/icons-material/DarkMode";
 import LightMode from "@mui/icons-material/LightMode";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
-import Copyright from "../../common/components/copyright";
+import Copyright from "../../common/components/Copyright";
 import CustomizedMenus from "../toolbar/CostomizedMenu";
 import { PaletteMode } from "@mui/material";
 import IconButton from "@mui/material/IconButton";

@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 
 //components
 import CreateNewFolder from "@mui/icons-material/CreateNewFolder";
-import Copyright from "../../../common/components/copyright";
+import Copyright from "../../../common/components/Copyright";
 import { SimpleSnackbar } from "../../snack-bar/SnackBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
