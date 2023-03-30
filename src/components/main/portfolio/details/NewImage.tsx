@@ -25,6 +25,7 @@ import { StoreContext } from "../../../../stores/store.context";
 
 //constants
 import { iconColor } from "../../../../common/constants/icon-color.constant";
+import { RegexConstant } from "../../../../common/constants/regex.constant";
 
 //utils
 import { get, isEmpty, isNil } from "lodash";
@@ -76,11 +77,7 @@ export const NewImage: React.FC<{
       setUrlError(false);
       return;
     }
-    if (
-      /(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-]*)*\/?/g.test(
-        fieldValue
-      )
-    ) {
+    if (RegexConstant.isUrl.test(fieldValue)) {
       setUrlBusy(true);
       await axios
         .head(fieldValue)
