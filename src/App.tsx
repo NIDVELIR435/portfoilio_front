@@ -1,13 +1,14 @@
-import React from 'react';
-import './App.css';
-import {Outlet} from "react-router-dom";
+//modules
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-function App(): JSX.Element {
-    return (
-        <div className="App">
-            <Outlet/>
-        </div>
-    );
-}
+//styles
+import "./App.css";
 
-export default App;
+export const App: React.FC = (): JSX.Element => {
+  return (
+    <div className="App">
+      <Outlet />
+    </div>
+  );
+};

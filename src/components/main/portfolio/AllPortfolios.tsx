@@ -1,16 +1,24 @@
-import * as React from "react";
+//modules
+import { useContext, useEffect, useState } from "react";
+
+//components
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { PortfolioDetail } from "./details/PortfolioDetail";
+import { EmptyPortfolioList } from "./EmptyPortfolioList";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import { useContext, useEffect, useState } from "react";
+
+//store
 import { StoreContext } from "../../../stores/store.context";
+
+//utils
 import { findLastIndex, get, isNil } from "lodash";
+
+//types
 import { Portfolio } from "../../../stores/types/portfolio.type";
-import { EmptyPortfolioList } from "./EmptyPortfolioList";
-import { PortfolioDetail } from "./details/PortfolioDetail";
 
 type PortfoliosInfo = {
   firstItem: number;

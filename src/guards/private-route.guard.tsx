@@ -1,6 +1,9 @@
+//modules
 import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+
+//store
 import { StoreContext } from "../stores/store.context";
 
 const JwtPrivateComponent = ({ children }: { children: JSX.Element }) => {

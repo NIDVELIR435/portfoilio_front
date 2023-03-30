@@ -1,5 +1,8 @@
-import { AuthStore } from "./auth.store";
+//modules
 import React from "react";
+
+//services
+import { AuthStore } from "./auth.store";
 import { AuthService } from "./services/auth.service";
 import { UserService } from "./services/user.service";
 import { AxiosService } from "./services/axios.service";

@@ -13,9 +13,10 @@ import { Navigate, NavLink } from "react-router-dom";
 import { StoreContext } from "../../stores/store.context";
 import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
-import { SeverityLevel, SimpleSnackbar } from "../snack-bar/SnackBar";
+import { SimpleSnackbar } from "../snack-bar/SnackBar";
 import { delay } from "lodash";
 import { observer } from "mobx-react-lite";
+import { SeverityLevel } from "../../common/types/snack-bar-level.type";
 
 const theme = createTheme();
 

@@ -1,25 +1,35 @@
+//modules
 import { useEffect, FC, useContext, useState, useCallback } from "react";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import { StoreContext } from "../../../../stores/store.context";
-import { Image } from "../../../../stores/types/image.type";
-import { Portfolio } from "../../../../stores/types/portfolio.type";
-import * as React from "react";
+import { observer } from "mobx-react-lite";
+
+//components
+import { Backdrop } from "../../../../common/components/Backdrop";
 import { ImageList, ImageListItem, Tooltip } from "@mui/material";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Backdrop } from "../../../../common/components/Backdrop";
-import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import InfoIcon from "@mui/icons-material/Info";
 import TextField from "@mui/material/TextField";
 import { LoadingButton } from "@mui/lab";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+
+//store
+import { StoreContext } from "../../../../stores/store.context";
+
+//types
+import { Portfolio } from "../../../../stores/types/portfolio.type";
+import { Image } from "../../../../stores/types/image.type";
+
+//utils
 import { isEmpty, isNil } from "lodash";
-import { DateTime } from "luxon";
 import { NewImage } from "./NewImage";
+import { DateTime } from "luxon";
+
+//constants
 import { iconColor } from "../../../../common/constants/icon-color.constant";
-import Typography from "@mui/material/Typography";
-import { observer } from "mobx-react-lite";
 
 export const PortfolioDetail: FC<{ portfolio: Portfolio }> = observer(
   ({ portfolio }): JSX.Element => {

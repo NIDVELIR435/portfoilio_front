@@ -1,4 +1,8 @@
-import * as React from "react";
+//modules
+import { useEffect, useState, FC } from "react";
+import { useNavigate } from "react-router-dom";
+
+//components
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -6,15 +10,15 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
+
+//types
 import { Portfolio } from "../../../stores/types/portfolio.type";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   portfolio: Portfolio;
 };
 
-export const PortfolioTitle: React.FC<Props> = (props): JSX.Element => {
+export const PortfolioTitle: FC<Props> = (props): JSX.Element => {
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState<Portfolio>(props.portfolio);
 

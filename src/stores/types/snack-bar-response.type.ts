@@ -1,6 +1,6 @@
-import {SeverityLevel} from "../../components/snack-bar/SnackBar";
+import { SeverityLevel } from "../../common/types/snack-bar-level.type";
 
 export type ResponseType = {
-    severity: SeverityLevel;
-    message: string
-}
+  severity: SeverityLevel;
+  message: string;
+};

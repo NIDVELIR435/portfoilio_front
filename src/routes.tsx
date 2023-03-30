@@ -1,13 +1,16 @@
+//modules
 import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
+
+//components
+import { AllPortfolios } from "./components/main/portfolio/AllPortfolios";
+import { NewPortfolio } from "./components/main/portfolio/NewPortfolio";
+import { NotFoundPage } from "./components/not-found/NotFound";
+import { JwtRouteGuard } from "./guards/private-route.guard";
 import { SignUp } from "./components/sign/SignUp";
 import { SignIn } from "./components/sign/SignIn";
-import App from "./App";
-import NotFoundPage from "./components/not-found/NotFound";
-import { JwtRouteGuard } from "./guards/private-route.guard";
 import { Main } from "./components/main/Main";
-import { NewPortfolio } from "./components/main/portfolio/NewPortfolio";
-import { AllPortfolios } from "./components/main/portfolio/AllPortfolios";
+import { App } from "./App";
 
 const router = createBrowserRouter([
   {

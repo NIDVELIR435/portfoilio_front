@@ -1,6 +1,11 @@
+//modules
 import { Axios, AxiosResponse } from "axios";
+
+//types
 import { SignUpBody, User } from "../types/user.type";
 import { SignInResponse } from "../types/sign-in-response.type";
+
+//utils
 import { transformResponse } from "../utils/transform-response.util";
 
 export class AuthService {

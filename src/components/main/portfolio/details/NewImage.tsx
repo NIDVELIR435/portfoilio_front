@@ -1,3 +1,4 @@
+//modules
 import React, {
   ChangeEvent,
   FormEvent,
@@ -6,19 +7,29 @@ import React, {
   useRef,
   useState,
 } from "react";
+import axios from "axios";
+
+//components
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { LoadingButton } from "@mui/lab";
 import { ImageListItem } from "@mui/material";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-import { get, isEmpty, isNil } from "lodash";
-import axios from "axios";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
-import { iconColor } from "../../../../common/constants/icon-color.constant";
+
+//store
 import { StoreContext } from "../../../../stores/store.context";
+
+//constants
+import { iconColor } from "../../../../common/constants/icon-color.constant";
+
+//utils
+import { get, isEmpty, isNil } from "lodash";
+
+//types
 import { Image } from "../../../../stores/types/image.type";
 
 export const NewImage: React.FC<{

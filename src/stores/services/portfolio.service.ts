@@ -1,7 +1,12 @@
+//modules
 import { Axios } from "axios";
+
+//services
+import { AxiosService } from "./axios.service";
+
+//types
 import { Portfolio } from "../types/portfolio.type";
 import { ResponseType } from "../types/snack-bar-response.type";
-import { AxiosService } from "./axios.service";
 
 export class PortfolioService {
   private readonly agent: Axios;

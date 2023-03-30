@@ -1,5 +1,10 @@
+//modules
 import { Axios } from "axios";
+
+//services
 import { AxiosService } from "./axios.service";
+
+//types
 import { Image } from "../types/image.type";
 
 export class ImageService {

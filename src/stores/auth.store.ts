@@ -1,9 +1,16 @@
+//modules
 import { makeAutoObservable } from "mobx";
-import { AuthService } from "./services/auth.service";
-import { User } from "./types/user.type";
-import { ResponseType } from "./types/snack-bar-response.type";
-import { LocalStorageName } from "./enums/local-storage-name.enum";
 import { AxiosError } from "axios";
+
+//services
+import { AuthService } from "./services/auth.service";
+
+//constants
+import { LocalStorageName } from "./enums/local-storage-name.enum";
+
+//types
+import { ResponseType } from "./types/snack-bar-response.type";
+import { User } from "./types/user.type";
 
 export class AuthStore {
   public authenticated = false;

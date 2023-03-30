@@ -1,5 +1,10 @@
+//modules
 import { Axios } from "axios";
+
+//services
 import { AuthStore } from "../auth.store";
+
+//utils
 import { transformResponse } from "../utils/transform-response.util";
 
 export class AxiosService {
