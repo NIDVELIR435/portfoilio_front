@@ -23,7 +23,7 @@ export class AuthStore {
       if (status === 200) {
         await this.writeToStore(data.accessToken);
         this.writeToCookie(data.refreshToken);
-        console.log({ cookie: document.cookie });
+
         return {
           severity: "success",
           message: "Success",
