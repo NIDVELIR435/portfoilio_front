@@ -4,6 +4,12 @@ import { Axios } from "axios";
 //services
 import { AxiosService } from "./axios.service";
 
+//utils
+import {
+  handleAxiosSnackBarResponse,
+  handleSnackBarCatch,
+} from "../utils/axios-handler.util";
+
 //types
 import { Portfolio } from "../types/portfolio.type";
 import { ResponseType } from "../types/snack-bar-response.type";
@@ -15,39 +21,13 @@ export class PortfolioService {
     this.agent = this.axiosService.getInstance();
   }
 
-  public async create(
+  public create(
     requestBody: Omit<Portfolio, "id" | "createdAt" | "updatedAt">
   ): Promise<ResponseType> {
-    try {
-      const response = await this.agent.post<Portfolio>(
-        "portfolio/create",
-        JSON.stringify(requestBody)
-      );
-
-      if (response.status === 201) {
-        return {
-          severity: "success",
-          message: "Success",
-        };
-      }
-
-      if (response.status === 400) {
-        return {
-          severity: "error",
-          message: "Portfolio already exist",
-        };
-      }
-
-      return {
-        severity: "warning",
-        message: "Something wrong happened during authentication",
-      };
-    } catch (error: unknown) {
-      return {
-        severity: "error",
-        message: "Something wrong happened during authentication",
-      };
-    }
+    return this.agent
+      .post("portfolio/create", JSON.stringify(requestBody))
+      .then(handleAxiosSnackBarResponse)
+      .catch(handleSnackBarCatch);
   }
 
   public findAll(): Promise<Portfolio[]> {
